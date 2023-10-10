@@ -1,5 +1,5 @@
 <template>
-  <!-- <search-students @input-search="search" />
+  <search-students @input-search="search" />
   <div class="row mt-3">
     <table-students
       @remove-single="removeSingle"
@@ -22,41 +22,34 @@
       :edit-student="editStudent"
       :disabled="disabled"
     />
-  </div> -->
-
-  <!-- <student-management /> -->
-  <suspense>
-    <template #default><router-view /></template>
-
-    <template #fallback>Loading ... </template>
-  </suspense>
+  </div>
 </template>
 
 <script>
-// import SearchStudents from './components/SearchStudents.vue';
-// import TableStudents from './components/TableStudents.vue';
-// import InputStudent from './components/InputStudent.vue';
+import SearchStudents from '@/components/SearchStudents.vue';
+import TableStudents from '@/components/TableStudents.vue';
+import InputStudent from '@/components/InputStudent.vue';
 
-// import '@/assets/styles/global.scss';
-// import { onMounted, provide, ref, watch } from 'vue';
-// import axios from 'axios';
+import '@/assets/styles/global.scss';
+import { onMounted, provide, ref, watch } from 'vue';
+import axios from 'axios';
 
-// import Student, { students } from './assets/js/student';
-// import { convertDate } from './assets/js/utils';
+import Student from '@/assets/js/student';
+import { convertDate, API_URL } from '@/assets/js/utils';
 
-// import { createToast } from 'mosha-vue-toastify';
-// import 'mosha-vue-toastify/dist/style.css';
+import { createToast } from 'mosha-vue-toastify';
+import 'mosha-vue-toastify/dist/style.css';
 
 export default {
   name: 'App',
-  // components: { SearchStudents, InputStudent, TableStudents },
+  components: { SearchStudents, InputStudent, TableStudents },
 };
 </script>
 
-<!-- <script setup>
-const API_URL = 'https://localhost:7224/';
+<script setup>
+// const API_URL = 'https://localhost:7224/';
 
-const studentList = ref(students);
+const studentList = ref(null);
 const editStudent = ref();
 const disabled = ref(false);
 
@@ -107,7 +100,7 @@ const add = async (student = new Student()) => {
     .post(`${API_URL}api/students`, {
       name: student.tenSv,
       birthdate: dateString,
-      gender: Boolean(student.gioiTinh),
+      gender: student.gioiTinh == 'true' || student.gioiTinh == true,
       departmentId: student.khoa.maKhoa,
     })
     .then((res) => {
@@ -199,11 +192,14 @@ const getData = async () => {
     `pageSize=${pageSize.value}`,
   ];
 
-  await axios.get(`${API_URL}api/Students?${data.join('&')}`).then((res) => {
-    studentList.value = studentBEToFE(res.data.students);
-    totalPage.value = res.data.totalPage;
-    totalStudent.value = res.data.totalStudent;
-  });
+  await axios
+    .get(`${API_URL}api/Students?${data.join('&')}`)
+    .then((res) => {
+      studentList.value = studentBEToFE(res.data.students);
+      totalPage.value = res.data.totalPage;
+      totalStudent.value = res.data.totalStudent;
+    })
+    .catch((error) => console.log(error));
 };
 
 const studentBEToFE = (BEStudents) => {
@@ -222,16 +218,8 @@ const studentBEToFE = (BEStudents) => {
 onMounted(() => {
   getData();
 });
-</script> -->
+</script>
 
 <style>
 @import '~bootstrap/dist/css/bootstrap.css';
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /* text-align: center; */
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>

@@ -1,0 +1,29 @@
+@import '~bootstrap/dist/css/bootstrap.css';
+
+button {
+  background: transparent;
+  border: none;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #e5e5e7;
+  }
+}
+
+.search-btn {
+  background-color: hotpink;
+  color: white;
+  border-radius: 3px;
+  border: 0px;
+  padding: 3px 6px;
+  font-weight: bold;
+
+  &:hover {
+    background-color: rgb(225, 10, 118);
+  }
+}
+
+.clear-background {
+  background: transparent !important;
+  display: inline !important;
+}
