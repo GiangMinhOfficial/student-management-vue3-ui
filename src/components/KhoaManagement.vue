@@ -12,7 +12,7 @@
       />
     </div>
     <div class="col-auto" @click.prevent="createKhoa">
-      <button-item content="Tạo mới" class="btn btn-primary mb-3" />
+      <button-item class="btn btn-primary mb-3">Tạo mới</button-item>
     </div>
   </form>
 </template>

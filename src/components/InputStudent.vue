@@ -2,21 +2,15 @@
   <div class="wrapper">
     <form action="" class="mx-auto">
       <div class="btns">
-        <button-item
-          content="Thêm mới"
-          class="btn-primary search-btn me-3"
-          @on-click="add"
-        />
-        <button-item
-          content="Cập nhật"
-          class="btn-primary search-btn me-3"
-          @on-click="edit"
-        />
-        <button-item
-          content="Clear"
-          class="btn-primary search-btn"
-          @on-click="clear"
-        />
+        <button-item class="btn-primary search-btn me-3" @on-click="add"
+          >Thêm mới</button-item
+        >
+        <button-item class="btn-primary search-btn me-3" @on-click="edit"
+          >Cập nhật</button-item
+        >
+        <button-item class="btn-primary search-btn" @on-click="clear"
+          >Xóa</button-item
+        >
       </div>
 
       <div class="mb-2">
@@ -89,9 +83,9 @@
         <label-item for="khoa" content="Khoa" />
         <custom-select
           id="khoa"
-          class="khoa"
           :khoas="khoas"
           v-model="khoa"
+          disabledOption="Chọn khoa"
           @select-khoa="updateKhoaRef"
         />
         <router-link to="/khoa">

@@ -15,13 +15,13 @@
 
     <pagination-interface class="pagination" />
 
-    <table class="table table-striped wrapper">
+    <table class="wrapper table table-striped">
       <thead>
         <tr>
           <th class="remove-multiple">
-            <button @click="removeMultiple">
+            <button-item @click="removeMultiple">
               <font-awesome-icon :icon="['fas', 'trash']" />
-            </button>
+            </button-item>
           </th>
           <th @click="handleStudentIdOrder">Mã sinh viên</th>
           <th @click="handleNameOrder">
@@ -58,14 +58,14 @@
           <td>{{ genderCheck(student.gioiTinh) }}</td>
           <td>{{ student.khoa.tenKhoa }}</td>
           <td>
-            <button @click="edit(student.maSv)">
+            <button-item @click="edit(student.maSv)">
               <font-awesome-icon :icon="['far', 'pen-to-square']" />
-            </button>
+            </button-item>
           </td>
           <td>
-            <button @click="remove(student.maSv)">
+            <button-item @click="remove(student.maSv)">
               <font-awesome-icon :icon="['far', 'trash-can']" />
-            </button>
+            </button-item>
           </td>
         </tr>
       </transition-group>
@@ -166,6 +166,9 @@ const props = defineProps({
   margin-top: 10px;
   margin-bottom: 50px;
   padding-top: 20px;
+
+  border: solid #dee2e6;
+  border-width: 1px;
 }
 
 .wrapper {

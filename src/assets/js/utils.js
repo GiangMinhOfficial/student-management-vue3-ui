@@ -24,4 +24,7 @@ const converDateFromMMDDYYYYToDDMMYYYY = (dateString) => {
 
 const API_URL = 'https://localhost:7224/';
 
+const DEFAULT_DISABLED_GENDER = -1;
+
 export { convertDate, converDateFromMMDDYYYYToDDMMYYYY, API_URL };
+export { DEFAULT_DISABLED_GENDER };

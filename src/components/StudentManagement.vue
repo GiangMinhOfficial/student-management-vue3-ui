@@ -1,5 +1,11 @@
 <template>
-  <search-students @input-search="search" />
+  <search-students
+    :genderFilter="gender"
+    :khoa="khoa"
+    @input-search="search"
+    @gender-filter="gender = $event"
+    @update-khoa="khoa = $event"
+  />
   <div class="row mt-3">
     <table-students
       @remove-single="removeSingle"
@@ -31,11 +37,15 @@ import TableStudents from '@/components/TableStudents.vue';
 import InputStudent from '@/components/InputStudent.vue';
 
 import '@/assets/styles/global.scss';
-import { onMounted, provide, ref, watch } from 'vue';
+import { computed, onMounted, provide, ref, watch } from 'vue';
 import axios from 'axios';
 
 import Student from '@/assets/js/student';
-import { convertDate, API_URL } from '@/assets/js/utils';
+import {
+  convertDate,
+  API_URL,
+  DEFAULT_DISABLED_GENDER,
+} from '@/assets/js/utils';
 
 import { createToast } from 'mosha-vue-toastify';
 import 'mosha-vue-toastify/dist/style.css';
@@ -47,8 +57,6 @@ export default {
 </script>
 
 <script setup>
-// const API_URL = 'https://localhost:7224/';
-
 const studentList = ref(null);
 const editStudent = ref();
 const disabled = ref(false);
@@ -60,6 +68,8 @@ const totalStudent = ref(0);
 const searchString = ref('');
 const dateFrom = ref('');
 const dateTo = ref('');
+const gender = ref(DEFAULT_DISABLED_GENDER);
+const khoa = ref(null);
 const pageSize = ref(5);
 const order = ref('');
 
@@ -86,7 +96,7 @@ const search = (val) => {
     createToast(notiString, {
       type: 'success',
     });
-  }, 500);
+  }, 100);
 };
 
 const searchStudent = (studentId) => {
@@ -168,10 +178,21 @@ const changeDateTo = (toDate) => {
   dateTo.value = toDate.value;
 };
 
-const clearDateFilters = () => {
+const clearFilters = () => {
   dateFrom.value = '';
   dateTo.value = '';
+  gender.value = DEFAULT_DISABLED_GENDER;
+  khoa.value = null;
+  getData();
 };
+
+const genderFilter = computed(() => {
+  return gender.value == -1 ? '' : gender.value == 1 ? true : false;
+});
+
+const khoaFilter = computed(() => {
+  return khoa.value == null ? '' : khoa.value;
+});
 
 provide('totalPage', { totalPage, changePage, searchString });
 
@@ -180,13 +201,15 @@ provide('date-from', { dateFrom, changeDateFrom });
 provide('date-to', { dateTo, changeDateTo });
 
 // provide to SearchStudents.vue
-provide('date-clear', { clearDateFilters });
+provide('date-clear', { clearFilters });
 
 const getData = async () => {
   const data = [
     `search=${searchString.value}`,
     `fromDate=${dateFrom.value}`,
     `toDate=${dateTo.value}`,
+    `gender=${genderFilter.value}`,
+    `departmentId=${khoaFilter.value}`,
     `order=${order.value}`,
     `page=${pageIndex.value}`,
     `pageSize=${pageSize.value}`,

@@ -1,6 +1,11 @@
 <template>
-  <select v-model="selected" @change="emits('select-khoa', selected)" :id="id">
-    <option disabled value="">Please select one</option>
+  <select
+    v-model="selected"
+    @change="emits('select-khoa', selected)"
+    :id="id"
+    :class="$attrs.class"
+  >
+    <option disabled value="">{{ disabledOption }}</option>
 
     <option v-for="khoa in props.khoas" :key="khoa.maKhoa" :value="khoa.maKhoa">
       {{ khoa.tenKhoa }}
@@ -20,6 +25,7 @@ const props = defineProps({
     default: () => {},
   },
   id: null,
+  disabledOption: null,
 });
 
 watch(
@@ -32,8 +38,4 @@ watch(
     }
   },
 );
-
-// watch(selected, (newSelected) => {
-//   emits('select-khoa', newSelected);
-// });
 </script>
